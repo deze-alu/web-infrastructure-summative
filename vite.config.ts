@@ -1,5 +1,6 @@
 import adapter from '@sveltejs/adapter-auto'
 import { sveltekit } from '@sveltejs/kit/vite'
+import path from 'path'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
@@ -17,4 +18,9 @@ export default defineConfig({
 			adapter: adapter(),
 		}),
 	],
+	resolve: {
+		alias: {
+			'#components': path.resolve('./src/components'),
+		},
+	},
 })
