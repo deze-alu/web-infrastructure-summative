@@ -8,7 +8,7 @@ node_modules
 /.svelte-kit
 /build
 /.vscode
-.vscode/codepause-baselines.json
+.vscode/codepause-*.json
 
 # OS
 .DS_Store
