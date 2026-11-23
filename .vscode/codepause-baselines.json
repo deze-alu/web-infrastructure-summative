@@ -7,11 +7,11 @@
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/src/lib/index.ts": 1,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/tsconfig.json": 7,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/vite.config.ts": 28,
-  "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.svelte-kit/types/route_meta_data.json": 5,
+  "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.svelte-kit/types/route_meta_data.json": 6,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.svelte-kit/types/src/routes/$types.d.ts": 32,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/src/routes/+page.svelte": 26,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/src/routes/+layout.svelte": 12,
-  "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.svelte-kit/generated/dev/app-manifest.js": 11,
+  "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.svelte-kit/generated/dev/app-manifest.js": 12,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.vscode/codepause-baselines.json": 29,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.gitignore": 25,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/src/lib/assets/app.css": 56,
@@ -20,7 +20,7 @@
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.svelte-kit/generated/dev/client/nodes/0.js": 1,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.svelte-kit/generated/dev/client/nodes/1.js": 1,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.svelte-kit/generated/dev/client/nodes/2.js": 1,
-  "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.svelte-kit/generated/dev/client/app.js": 29,
+  "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.svelte-kit/generated/dev/client/app.js": 31,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.svelte-kit/generated/dev/server.js": 34,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.svelte-kit/generated/dev/shared/error-template.js": 1,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/src/lib/assets/reset.css": 66,
@@ -39,5 +39,8 @@
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/src/components/game/gameBoard.svelte": 3,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/src/components/game/game.util.ts": 5,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/src/components/theme/theme.svelte": 0,
-  "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/src/components/theme/theme-toggle.svelte": 9
+  "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/src/components/theme/theme-toggle.svelte": 9,
+  "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/src/routes/guide/+page.svelte": 0,
+  "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.svelte-kit/generated/dev/client/nodes/3.js": 1,
+  "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.svelte-kit/types/src/routes/guide/$types.d.ts": 19
 }

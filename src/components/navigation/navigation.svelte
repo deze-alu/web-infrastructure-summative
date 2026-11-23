@@ -12,8 +12,8 @@
 		</div>
 
 		<ul class="flex justify-between items-center gap-6 font-medium text-[13px]">
-			<li><a class="hover:underline" href="/">How to play</a></li>
-			<li><a class="hover:underline" href="/guide">Statistics</a></li>
+			<li><a class="hover:underline" href="/guide">How to play</a></li>
+			<li><a class="hover:underline" href="#">Statistics</a></li>
 			<li class="text-2xl flex items-center">
 				<ThemeToggle />
 			</li>
