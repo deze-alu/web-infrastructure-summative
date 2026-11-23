@@ -28,6 +28,7 @@
 	},
 	"dependencies": {
 		"@theme-toggles/svelte": "^1.0.3",
-		"axios": "^1.21.1"
+		"axios": "^1.21.1",
+		"svelte-french-toast": "^1.2.0"
 	}
 }

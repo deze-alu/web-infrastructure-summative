@@ -21,6 +21,5 @@
 			One word. Six guesses. Make them count.
 		</p>
 	</div>
-
 	<GameBoard {wordOfTheDay} />
 </div>

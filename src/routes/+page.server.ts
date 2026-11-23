@@ -9,7 +9,8 @@ type WordleResponse = {
 }
 
 export const load: PageServerLoad = async ({ fetch }) => {
-	const response = await fetch('https://www.nytimes.com/svc/wordle/v2/2026-11-16.json')
+	const date = new Date().toISOString().slice(0, 10)
+	const response = await fetch(`https://www.nytimes.com/svc/wordle/v2/${date}.json`)
 
 	if (!response.ok) {
 		throw new Error('Failed to fetch word of the day')

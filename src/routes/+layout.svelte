@@ -4,6 +4,7 @@
 	import favicon from '#lib/assets/favicon.svg'
 	import { theme } from '#lib/stores/theme.svelte.ts'
 	import type { LayoutProps } from './$types'
+	import { Toaster } from 'svelte-french-toast'
 	import { onMount } from 'svelte'
 
 	onMount(() => theme.initialize())
@@ -24,3 +25,5 @@
 </svelte:head>
 
 {@render children()}
+
+<Toaster />

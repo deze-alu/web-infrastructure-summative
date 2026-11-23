@@ -1,7 +1,7 @@
 {
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.vscode/extensions.json": 6,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/README.md": 56,
-  "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/package.json": 33,
+  "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/package.json": 34,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/src/app.d.ts": 13,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/src/app.html": 12,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/src/lib/index.ts": 1,
@@ -26,7 +26,7 @@
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/src/lib/assets/reset.css": 66,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/src/components/navigation/navigation.svelte": 15,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/src/routes/+page.server.ts": 12,
-  "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.svelte-kit/types/src/routes/proxy+page.server.ts": 21,
+  "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.svelte-kit/types/src/routes/proxy+page.server.ts": 22,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/node_modules/$app/types/index.d.ts": 40,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/.vscode/settings.json": 5,
   "/Users/admin/Documents/Projects/ALU/Summatives/web-infra/node_modules/.pnpm/@sveltejs+kit@3.2.0_@sveltejs+vite-plugin-svelte@7.3.1_svelte@5.57.3_vite@8.3.8_jiti@2._f8efbffdf4f811070805021e6c996c56/node_modules/@sveltejs/kit/svelte-kit.js": 2,
