@@ -1,4 +1,5 @@
 @import './reset.css';
+@import 'tailwindcss';
 
 :root {
 	color-scheme: light;
@@ -51,4 +52,5 @@ body {
 	font-optical-sizing: auto;
 	font-style: normal;
 	min-height: 100vh;
+	color: var(--text);
 }

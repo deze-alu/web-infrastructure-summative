@@ -1,11 +1,11 @@
 import type { PageServerLoad } from './$types'
 
-type WordleResponse {
-	id: number;
-	solution: string;
-	print_date: string;
-	editor: string;
-	days_since_launch: string;
+type WordleResponse = {
+	id: number
+	solution: string
+	print_date: string
+	editor: string
+	days_since_launch: string
 }
 
 export const load: PageServerLoad = async ({ fetch }) => {
@@ -15,6 +15,6 @@ export const load: PageServerLoad = async ({ fetch }) => {
 		throw new Error('Failed to fetch word of the day')
 	}
 
-	const wordle = await response.json() as WordleResponse
+	const wordle = (await response.json()) as WordleResponse
 	return { solution: wordle.solution }
 }
