@@ -2,7 +2,7 @@
 
 _A daily word ritual._ Wordly is a Wordle-style word game built with SvelteKit. Each day there is one hidden five-letter word, and you get six guesses to find it. After each guess, the tiles change color to show how close you are.
 
-**Website:** [View the Website](https://daniel.tech)
+**Website:** [View the Website](https://www.daniel.tech)
 **Demo:** [View the Demo](https://youtu.be/S2Ixqf_Kzjo)
 **Design:** [View the Figma file](https://www.figma.com/design/rrVtyu9S84qO08vlsud0fb/Untitled?node-id=3-2&t=w6zzOFhNTPCJB1dP-0)
 
