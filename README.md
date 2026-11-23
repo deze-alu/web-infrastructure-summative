@@ -50,75 +50,92 @@ pnpm dev --open     # same, and open it in your browser
 | `pnpm check`       | Type-check the project with `svelte-check` |
 | `pnpm check:watch` | Type-check in watch mode                   |
 
-## Project structure
+## Deploying Wordly
 
-```
-src/
-├── app.html                     # HTML shell that SvelteKit injects the app into
-├── components/
-│   ├── game/
-│   │   └── gameBoard.svelte     # The game: grid, scoring, keyboard, win/lose state
-│   ├── navigation/
-│   │   └── navigation.svelte    # Top bar with logo, links and theme toggle
-│   └── theme/
-│       └── theme-toggle.svelte  # Light/dark switch button
-├── lib/
-│   ├── assets/
-│   │   ├── app.css              # Global styles and light/dark color tokens
-│   │   └── reset.css            # CSS reset (based on Josh Comeau's)
-│   └── stores/
-│       └── theme.svelte.ts      # Theme state (rune-based store)
-└── routes/
-    ├── +layout.svelte           # Shared layout: fonts, global CSS, theme init, toasts
-    ├── +page.server.ts          # Fetches the word of the day (runs on the server)
-    ├── +page.svelte             # Home page: hero text + game board
-    └── guide/
-        └── +page.svelte         # "How to play" page
-static/                          # Files served as-is (robots.txt)
+Wordly is live at **https://danieleze.tech**. It runs on two web servers (web-01 and web-02) behind a load balancer (lb-01).
+
+## 1. Getting the code from GitHub
+
+On both web-01 and web-02, I installed Git, Node.js 24, pnpm and pm2, then pulled the repository from GitHub:
+
+```bash
+git clone https://github.com/deze-alu/web-infrastructure-summative.git /var/www/wordly
+cd /var/www/wordly
+pnpm install
 ```
 
-## How it works
+## 2. Running SvelteKit with pm2
 
-### 1. Getting the word of the day
+SvelteKit's default `adapter-auto` only works on hosting platforms like Vercel or Netlify. On each server, I switched it to `@sveltejs/adapter-node`, which builds the app into a standalone Node.js server:
 
-`src/routes/+page.server.ts` runs on the server before the home page renders. It builds today's date (`YYYY-MM-DD`, UTC) and calls:
-
-```
-https://www.nytimes.com/svc/wordle/v2/<date>.json
+```bash
+pnpm add -D @sveltejs/adapter-node
 ```
 
-Only the `solution` field is sent to the page. If the request fails, the load function throws an error.
+```ts
+// vite.config.ts
+import adapter from '@sveltejs/adapter-node';
+```
 
-### 2. Playing the game
+```bash
+pnpm build
+```
 
-`src/components/game/gameBoard.svelte` holds all the game logic, using Svelte 5 runes (`$state`, `$derived`, `$props`):
+Then I started the built server with **pm2**, a process manager that keeps the app running:
 
-- **State:** the list of submitted `guesses`, the `currentGuess` being typed, and the `gameStatus` (`playing`, `won` or `lost`).
-- **Input:** a `<svelte:window onkeydown>` listener handles the physical keyboard. The on-screen keys call the same functions (`addLetter`, `deleteLetter`, `submitGuess`).
-- **Scoring (`evaluateGuess`):** this runs in two passes so that repeated letters are scored correctly:
-  1. Mark every letter in the exact right position as `correct`, and count the solution letters that are still unmatched.
-  2. For the remaining letters, mark one as `present` only while unmatched copies of it are left. Otherwise it stays `absent`.
-- **Keyboard colors (`updateKeyboard`):** each key keeps its best result so far (`correct` > `present` > `absent`), so a green key never goes back to yellow.
-- **End of game:** a correct guess sets the game to `won` and shows a toast. After six wrong guesses, the game is `lost` and the answer is revealed.
+```bash
+HOST=127.0.0.1 PORT=3000 ORIGIN=https://www.danieleze.tech pm2 start build/index.js --name wordly
+pm2 save
+pm2 startup
+```
 
-### 3. Theming
+- If the app crashes, pm2 restarts it immediately.
+- `pm2 save` and `pm2 startup` register the app as a system service, so it comes back after a server reboot.
+- The app only listens on `127.0.0.1:3000`, so it can't be reached directly from outside. Nginx is the only way in.
 
-- All colors are CSS variables in `src/lib/assets/app.css`. The light values are on `:root` and the dark values are on `:root[data-theme='dark']`.
-- `src/lib/stores/theme.svelte.ts` is a small store that sets `data-theme` on `<html>` and saves the choice in `localStorage` (key: `w-theme`).
-- On first load (`+layout.svelte` → `theme.initialize()`), it uses the saved theme if there is one. Otherwise it uses the system `prefers-color-scheme` setting.
-- Components use these variables through Tailwind's arbitrary-value syntax, for example `bg-(--feedback-correct)`.
+## 3. Architecture
 
-### 4. Import aliases
+```
+              Browser
+                │
+     https://danieleze.tech
+                │
+                ▼
+┌───────────────────────────────┐
+│        lb-01 (HAProxy)        │
+│      HTTPS + round robin      │
+└───────────────┬───────────────┘
+        ┌───────┴───────┐
+        ▼               ▼
+┌──────────────┐ ┌──────────────┐
+│    web-01    │ │    web-02    │
+│  Nginx :80   │ │  Nginx :80   │
+│      ▼       │ │      ▼       │
+│ pm2 → Wordly │ │ pm2 → Wordly │
+│127.0.0.1:3000│ │127.0.0.1:3000│
+└──────────────┘ └──────────────┘
+```
 
-| Alias           | Points to          | Defined in                           |
-| --------------- | ------------------ | ------------------------------------ |
-| `#lib/*`        | `src/lib/*`        | `package.json` → `imports`           |
-| `#components/*` | `src/components/*` | `vite.config.ts` and `tsconfig.json` |
+| Server | IP | Role |
+| ------ | -- | ---- |
+| lb-01 | 35.177.182.1 | HAProxy load balancer |
+| web-01 | 13.135.166.215 | Nginx + Wordly (pm2) |
+| web-02 | 18.133.221.184 | Nginx + Wordly (pm2) |
 
-## Known limitations / next steps
+- **lb-01 (HAProxy)** handles HTTPS with a Let's Encrypt certificate for `danieleze.tech` and `www.danieleze.tech`, redirects HTTP to HTTPS, and sends requests to web-01 and web-02 in turn (round robin).
+- **Nginx** on each web server receives the request on port 80 and passes it to the app on `127.0.0.1:3000`. It also adds an `X-Served-By` header with the server's name:
 
-- Guesses are not checked against a dictionary. Any five letters are accepted.
-- The **Statistics** link in the navigation is a placeholder.
-- The puzzle number on the home page (`No. 328`) is hard-coded.
-- Game progress is not saved, so refreshing the page resets the board.
-- `src/components/game/game.util.ts` is empty. It is a natural place to move the scoring logic so it can be unit tested.
+```nginx
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        server_name _;
+
+        add_header X-Served-By $hostname;
+
+        location / {
+                proxy_pass http://127.0.0.1:3000;
+        }
+}
+```
