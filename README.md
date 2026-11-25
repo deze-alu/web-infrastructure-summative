@@ -140,3 +140,38 @@ server {
         }
 }
 ```
+
+## 4. Firewall
+
+The web servers only accept website traffic from the load balancer. web-01 and web-02 both use `ufw` with the same rules:
+
+| Port | Allowed from |
+| ---- | ------------ |
+| 22 (SSH) | Anyone |
+| 80 (HTTP) | Only lb-01 (35.177.182.1) |
+| Anything else | Blocked |
+
+```bash
+sudo apt-get install -y ufw
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow 22/tcp
+sudo ufw allow from 35.177.182.1 to any port 80 proto tcp
+sudo ufw --force enable
+```
+
+- Requests from any other server or network are dropped and get no response, so the site can only be reached through **https://danieleze.tech**.
+- Port 443 stays closed on the web servers because lb-01 handles HTTPS.
+- Outgoing traffic is allowed, so the app can fetch the daily word and `git pull` can reach GitHub.
+
+To check the rules, run `sudo ufw status`:
+
+```
+Status: active
+
+To                         Action      From
+--                         ------      ----
+22/tcp                     ALLOW       Anywhere
+80/tcp                     ALLOW       35.177.182.1
+22/tcp (v6)                ALLOW       Anywhere (v6)
+```
