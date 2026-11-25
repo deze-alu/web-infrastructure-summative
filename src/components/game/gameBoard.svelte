@@ -1,13 +1,12 @@
 <script lang="ts">
 	import toast from 'svelte-french-toast'
-
-	type LetterStatus = 'correct' | 'present' | 'absent'
-	type GameStatus = 'playing' | 'won' | 'lost'
-
-	type Guess = {
-		word: string
-		result: LetterStatus[]
-	}
+	import { onMount } from 'svelte'
+	import {
+		gameStorage,
+		type GameStatus,
+		type Guess,
+		type LetterStatus,
+	} from '#lib/stores/game.ts'
 
 	let { wordOfTheDay } = $props()
 	const solution = $derived((wordOfTheDay ?? '').trim().toUpperCase())
@@ -18,6 +17,7 @@
 	let message = $state('')
 
 	let keyboardStatus = $state<Record<string, LetterStatus>>({})
+	let restored = $state(false)
 	const columns = [0, 1, 2, 3, 4]
 
 	const keyboardRows = [
@@ -74,6 +74,29 @@
 
 		keyboardStatus = updated
 	}
+
+	onMount(() => {
+		const saved = gameStorage.loadGame(solution)
+
+		if (saved) {
+			guesses = saved.guesses
+			currentGuess = saved.currentGuess
+			gameStatus = saved.gameStatus
+			saved.guesses.forEach((guess) => updateKeyboard(guess.word, guess.result))
+
+			if (saved.gameStatus === 'lost') {
+				message = `The word was ${solution}`
+			}
+		}
+
+		restored = true
+	})
+
+	$effect(() => {
+		if (!restored) return
+
+		gameStorage.saveGame({ solution, guesses, currentGuess, gameStatus })
+	})
 
 	function addLetter(letter: string) {
 		if (gameStatus !== 'playing') return

@@ -11,6 +11,7 @@ _A daily word ritual._ Wordly is a Wordle-style word game built with SvelteKit. 
 - **Daily puzzle:** the word of the day is fetched on the wordle server, so every player gets the same word.
 - **Physical and on-screen keyboard:** type with your keyboard (letters, `Enter`, `Backspace`) or tap the on-screen keys.
 - **Color feedback:** after each guess, every tile shows whether its letter is in the right spot, in the word but in the wrong spot, or not in the word. The keyboard keys change color too.
+- **Saved progress:** your guesses and the letters you've typed are saved in the browser, so refreshing the page keeps your game. A new daily word starts a fresh game.
 - **Light and dark themes:** the app follows your system preference the first time, then remembers your choice.
 - **How to play page:** a short guide with examples at `/guide`.
 
